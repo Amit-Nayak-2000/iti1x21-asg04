@@ -19,28 +19,6 @@ public class MenaceGame {
     int currentPosition =  game.lastPlayedPosition;
     boardOdds = new int[] {0,0,0,0,0,0,0,0,0};
     resetOdds();
-    // totalOdds = 0;
-    // int [] emptyPositions = game.emptyPositions();
-    
-    // int odd = 0;
-    // for(int position: emptyPositions){
-    //   int index = position - 1;
-    //   if(index == 0 || index == 1){
-    //     odd = 8;
-    //   }
-    //   else if (index == 2 || index == 3){
-    //     odd = 4;
-    //   }
-    //   else if (index == 4 || index == 5){
-    //     odd = 2;
-    //   }
-    //   else if (index == 6 || index == 7 || index == 8){
-    //     odd = 1;
-    //   }
-    //   boardOdds[index] = odd;
-    //   totalOdds += odd;
-    // }
-
   }
 
   /**
@@ -96,8 +74,8 @@ public class MenaceGame {
       return 0;
     }
 
-    // WRITE CODE HERE
-    return -1;
+    currentPosition = rollDice();
+    return currentPosition;
   }
 
   /**
@@ -175,7 +153,14 @@ public class MenaceGame {
     if(emptyPositions.length == 0 || diceRoll < 0 || diceRoll > totalOdds){
       return 0;
     }
-    return -1;
+    int position = diceRoll;
+    int i = 0;
+    while(position > 0){
+      position -= boardOdds[i];
+      i++;
+    }
+
+    return i;
 
   }
 
@@ -242,7 +227,7 @@ public class MenaceGame {
 
     return b.toString();
   }
-
+//game.boardIndexes[
   private String toString(int index) {
     CellValue lookupIndex = game.board[index];
     switch (lookupIndex) {
