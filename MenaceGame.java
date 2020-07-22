@@ -1,3 +1,4 @@
+import java.util.Random;
 public class MenaceGame {
 
   TicTacToe game;
@@ -14,8 +15,31 @@ public class MenaceGame {
    *       for ideas on how to structure a MenaceGame.
    */
   public MenaceGame(TicTacToe aGame) {
-
-    // WRITE CODE HERE
+    game = aGame;
+    int currentPosition =  game.lastPlayedPosition;
+    boardOdds = new int[9];
+    resetOdds();
+    // totalOdds = 0;
+    // int [] emptyPositions = game.emptyPositions();
+    
+    // int odd = 0;
+    // for(int position: emptyPositions){
+    //   int index = position - 1;
+    //   if(index == 0 || index == 1){
+    //     odd = 8;
+    //   }
+    //   else if (index == 2 || index == 3){
+    //     odd = 4;
+    //   }
+    //   else if (index == 4 || index == 5){
+    //     odd = 2;
+    //   }
+    //   else if (index == 6 || index == 7 || index == 8){
+    //     odd = 1;
+    //   }
+    //   boardOdds[index] = odd;
+    //   totalOdds += odd;
+    // }
 
   }
 
@@ -31,7 +55,31 @@ public class MenaceGame {
    */
   public void setOutcome(GameOutcome outcome) {
 
-    // WRITE CODE HERE
+    switch(outcome) {
+
+      case WIN:
+        boardOdds[currentPosition-1] += 3;
+        totalOdds +=3;
+        break;
+
+      case LOSE:
+        if(totalOdds == 1){
+          break;
+        }
+        else{
+          boardOdds[currentPosition-1] -= 1;
+          totalOdds -= 1;
+        }
+        break;
+
+      case DRAW:
+        boardOdds[currentPosition-1] += 1;
+        totalOdds +=1;
+        break;
+
+      default:
+       return;
+    }
 
   }
 
@@ -43,6 +91,10 @@ public class MenaceGame {
    * @return The current positionThe random number rolled.
    */
   public int pickCurrentPosition() {
+    int [] emptyPositions = game.emptyPositions();
+    if(emptyPositions.length == 0){
+      return 0;
+    }
 
     // WRITE CODE HERE
     return -1;
@@ -74,10 +126,18 @@ public class MenaceGame {
    * @return The random number rolled.
    */
   public int rollDice() {
+    int [] emptyPositions = game.emptyPositions();
 
-    // (OVER) WRITE CODE HERE
-    return -1;
+    if(emptyPositions.length == 0){
+      return 0;
+    }
 
+    Random generator;
+    generator = new Random();
+
+    int roll = generator.nextInt(totalOdds) + 1;
+    
+    return roll;
   }
 
   /**
@@ -111,8 +171,10 @@ public class MenaceGame {
    * @return int which position on the board should we choose
    */
   public int calculatePosition(int diceRoll) {
-
-    // (OVER) WRITE CODE HERE
+    int [] emptyPositions = game.emptyPositions();
+    if(emptyPositions.length == 0 || diceRoll < 0 || diceRoll > totalOdds){
+      return 0;
+    }
     return -1;
 
   }
@@ -122,9 +184,27 @@ public class MenaceGame {
    * Menace algorithm.
    */
   public void resetOdds() {
-
-    // WRITE CODE HERE
-
+    totalOdds = 0;
+    int [] emptyPositions = game.emptyPositions();
+    
+    int odd = 0;
+    for(int position: emptyPositions){
+      int index = position - 1;
+      if(index == 0 || index == 1){
+        odd = 8;
+      }
+      else if (index == 2 || index == 3){
+        odd = 4;
+      }
+      else if (index == 4 || index == 5){
+        odd = 2;
+      }
+      else if (index == 6 || index == 7 || index == 8){
+        odd = 1;
+      }
+      boardOdds[index] = odd;
+      totalOdds += odd;
+    }
   }
 
 }
