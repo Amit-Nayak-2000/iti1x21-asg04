@@ -17,7 +17,7 @@ public class MenaceGame {
   public MenaceGame(TicTacToe aGame) {
     game = aGame;
     int currentPosition =  game.lastPlayedPosition;
-    boardOdds = new int[9];
+    boardOdds = new int[] {0,0,0,0,0,0,0,0,0};
     resetOdds();
     // totalOdds = 0;
     // int [] emptyPositions = game.emptyPositions();
@@ -184,6 +184,7 @@ public class MenaceGame {
    * Menace algorithm.
    */
   public void resetOdds() {
+    boardOdds = new int[] {0,0,0,0,0,0,0,0,0};
     totalOdds = 0;
     int [] emptyPositions = game.emptyPositions();
     
@@ -206,5 +207,56 @@ public class MenaceGame {
       totalOdds += odd;
     }
   }
+
+//"POSITION: 0 (Odds 11)\n"
+
+
+  public String toString() {
+    StringBuilder b = new StringBuilder();
+    int maxRowsIndex = game.numRows - 1;
+    int maxColumnsIndex = game.numColumns - 1;
+
+    String lineSeparator = Utils.repeat("---", game.numColumns) + Utils.repeat("-", game.numColumns - 1);
+
+    b.append("POSITION: " + currentPosition + " (Odds "+ totalOdds +")\n");
+    for (int i = 0; i < game.numRows; i++) {
+      for (int j = 0; j < game.numColumns; j++) {
+        int index = i*game.numColumns + j;
+
+        b.append(" ");
+        b.append(toString(index));
+        b.append(" ");
+
+        if (j < maxColumnsIndex) {
+          b.append("|");
+        }
+      }
+
+      // Line separator after each row, except the last
+      if (i < maxRowsIndex) {
+        b.append("\n");
+        b.append(lineSeparator);
+        b.append("\n");
+      }
+    }
+
+    return b.toString();
+  }
+
+  private String toString(int index) {
+    CellValue lookupIndex = game.board[index];
+    switch (lookupIndex) {
+      case X:
+        return lookupIndex.toString();
+      case O:
+        return lookupIndex.toString();
+      case EMPTY:
+        return String.valueOf(boardOdds[index]);
+      default:
+        return null;
+    }
+  }
+
+
 
 }
